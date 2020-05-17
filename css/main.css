@@ -1,0 +1,156 @@
+
+@media only screen
+    and (max-width : 500px){
+     html{
+    overflow: hidden;
+}
+
+body{
+    background-image: url(/images/mode.png);
+    background-size: 100vw 100vh;
+}
+
+    
+.div1{
+    position: absolute;
+    width: 30vw;
+    height: 10vh;
+    z-index: 3;
+   top: 47.8vh;
+    left: 35vw;
+}
+.div2{
+    position: absolute;
+    width: 30vw;
+    height: 10vh;
+    z-index: 2;
+    top: 47.8vh;
+    left: 35vw;
+}
+.div3{
+    position: absolute;
+    width: 30vw;
+    height: 10vh;
+    z-index: 1;
+    top: 47.8vh;
+    left: 35vw;
+}
+
+.div4{
+    position: absolute;
+    height: 10vh;
+    width: 15vw;
+    top: 48vh;
+    left: 18vw;
+}
+.div5{
+    position: absolute;
+    height: 10vh;
+    width: 15vw;
+    top: 48vh;
+    left: 68vw;
+}
+.but{
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    border-color: rgb(41,20,100);
+}
+
+.but_changer{
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: transparent;
+    border: none;
+}
+         .help{
+    position: absolute;
+    width: 30vw;
+    height: 10vh;
+    top: 61.8vh;
+    left: 35vw;
+    background-size: 100% 100%;
+    border-color: yellow;
+}
+
+
+}
+@media only screen
+    and (min-width : 501px) {
+html{
+    overflow: hidden;
+}
+
+body{
+    background-image: url(/images/mode.png);
+    background-size: 100vw 100vh;
+}
+
+    
+.div1{
+    position: absolute;
+    width: 20vw;
+    height: 15vh;
+    z-index: 3;
+   top: 47.8vh;
+    left: 40vw;
+}
+.div2{
+    position: absolute;
+    width: 20vw;
+    height: 15vh;
+    z-index: 2;
+    top: 47.8vh;
+    left: 40vw;
+}
+.div3{
+    position: absolute;
+    width: 20vw;
+    height: 15vh;
+    z-index: 1;
+    top: 47.8vh;
+    left: 40vw;
+}
+
+.div4{
+    position: absolute;
+    height: 15vh;
+    width: 5vw;
+    top: 48vh;
+    left: 34vw;
+}
+.div5{
+    position: absolute;
+    height: 15vh;
+    width: 5vw;
+    top: 48vh;
+    left: 61.3vw;
+}
+.but{
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    border-color: rgb(41,20,100);
+}
+
+.but_changer{
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: transparent;
+    border: none;
+}
+        .help{
+    position: absolute;
+    height: 15vh;
+    width: 20vw;
+    top: 68vh;
+    left: 40vw;
+    background-size: 100% 100%;
+    border-color: yellow;
+}
+
+}

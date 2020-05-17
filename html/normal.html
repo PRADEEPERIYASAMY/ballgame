@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colors</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/doodle/48/000000/controller--v1.png" type="image/x-icon">
+    <link href="/css/normal.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <div class="div1">
+        <canvas id="canvas">hhh</canvas>
+        <div class="butHolder"><button id="start" class="btn start"></button><button id="pause"  class="btn pause"></button><button id="resume" class="btn resume"></button><button id="reset" class="btn restart"></button></div>
+        <div id="endscreen" class="endscreen"><p id="endscore" class="endscore"></p></div>
+    </div>
+    <div class="scoreholder"><p class="scorefont">score</p><p class="score" id="score"></p></div>
+    <div class="scoreholder2"><p class="scorefont2">Best</p><p class="score2" id="score2"></p></div>
+    <button class="jump" id = "jump"></button>
+    <audio controls loop preload="auto" style="display: none">
+        <source src="/audios/bgm.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/jump.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/collision.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/hit.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/click.ogg" type="audio/ogg">
+    </audio>
+</body>
+    <script>
+        var y = 730;
+        var vy = 2;
+        var g = 1;
+        var by = -150;
+        var by2 = by-700;
+        var by3 = by2-700;
+        var bx = 400;
+        var bx2 = 400;
+        var bx3 = 400;
+        var bv = 1;
+        var bg = 1;
+        var obj1 = 0;
+        var obj2 = 0;
+        var obj3 = 0;
+        var deg = Math.PI/180;
+        var brotate =1.1;
+        var brotatea =1.1;
+        var brotatea2 =1.1;
+        var brotateb =1.1;
+        var brotateb2 =1.1;
+        var brotateb3 =1.1;
+        var rotateinc = 0.5;
+        var rotateinca = 0.4;
+        var rotateinca2 = 0.3;
+        var rotateincb = 0.4;
+        var rotateincb2 = 0.3;
+        var rotateincb3 = 0.2;
+        var bwidth = 20;
+        var bwidtha = 30;
+        var bwidtha2 = 20;
+        var bwidthb = 15;
+        var bwidthb2 = 20;
+        var bwidthb3 = 17;
+        var score = 0;
+        var canvas = document.getElementById("canvas");
+        canvas.width = 1600;
+        canvas.height = 1800;
+        var ctx = canvas.getContext("2d");
+        ctx.scale(2,2);
+        var bradius = 100;
+        var bradiusa = 160;
+        var bradiusb = 170;
+        var color1apply = "red";
+        var color2apply = "blue";
+        var dif1;
+        var dif2;
+        var dif1a;
+        var dif2a;
+        var dif1a2;
+        var dif2a2;
+        var dif1b;
+        var dif2b;
+        var dif1b2;
+        var dif2b2;
+        var dif1b3;
+        var dif2b3;
+        var maincountdown = 0;
+        var best = 0;
+        document.getElementById("jump").style.display = "none";
+        document.getElementById("resume").disabled = true;
+        document.getElementById("score2").innerText = window.localStorage.getItem("SCOREN");
+        
+        document.getElementById("start").onclick = function(){
+        document.getElementsByTagName("audio")[4].play();
+        document.getElementById("start").disabled = true;
+        document.getElementById("jump").style.display = "block";
+        document.getElementsByTagName("audio")[0].play();
+        canvas.style.backgroundColor="rgb(41,20,100)";
+        canvas.style.backgroundImage="none";
+        ctx.beginPath();
+        ctx.fillStyle=color2apply;
+        ctx.arc(400,y,20,0,Math.PI*2,false);
+        ctx.fill();
+   document.getElementById("jump").onmousedown = function(){
+          maincountdown = setInterval(main,40);
+        }
+    document.getElementById("jump").onmouseup = function(){
+        if( (dif1 >-30 && dif1 <30) && (brotate>90 && brotate<270) && obj1!=1){
+         document.getElementById("jump").style.display = "none";
+         end();
+        }
+       else if( (dif2 >-30 && dif2 <30) && (brotate>270 && brotate<360 || (brotate>0 && brotate<90)) && obj1!=1){
+              document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1a >-30 && dif1a <30) && (brotatea>90 && brotatea<270) && obj2!=1){
+            document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2a >-30 && dif2a <30) && (brotatea>270 && brotatea<360 || (brotatea>0 && brotatea<90)) && obj2!=1){
+             document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1a2 >-30 && dif1a2 <30) && (brotatea2>90 && brotatea2<270) && obj2!=1){
+           document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2a2 >-30 && dif2a2 <30) && (brotatea2>270 && brotatea2<360 || (brotatea2>0 && brotatea2<90)) && obj2!=1){
+            document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1b >-30 && dif1b <30) && (brotateb>90 && brotateb<270) && obj3!=1){
+           document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2b >-30 && dif2b <30) && (brotateb>270 && brotateb<360 || (brotateb>0 && brotateb<90)) && obj3!=1){
+             document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1b2 >-30 && dif1b2 <30) && (brotateb2>90 && brotateb2<270) && obj3!=1){
+            document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2b2 >-30 && dif2b2 <30) && (brotateb2>270 && brotateb2<360 || (brotateb2>0 && brotateb2<90)) && obj3!=1){
+          document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1b3 >-30 && dif1b3 <30) && (brotateb3>90 && brotateb3<270) && obj3!=1){
+            document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2b3 >-30 && dif2b3 <30) && (brotateb3>270 && brotateb3<360 || (brotateb3>0 && brotateb3<90)) && obj3!=1){
+            document.getElementById("jump").style.display = "none";
+           end();
+        }
+        else{
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        clearInterval(maincountdown);
+            document.getElementsByTagName("audio")[3].play();
+            y = 730;
+            vy = 2;
+            g = 1;
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.beginPath();
+            ctx.fillStyle=color2apply;
+            ctx.arc(400,y,20,0,Math.PI*2,false);
+            ctx.fill();
+            by = by+bv;
+            by2 = by2+bv;
+            by3 = by3+bv;
+            if(bv > 6){
+                bv = 6;
+            }
+            draw();
+            draw2();
+            draw3();
+        }
+        
+    };
+    document.getElementById("jump").ontouchstart = function(){
+          maincountdown = setInterval(main,40);
+        }
+    document.getElementById("jump").ontouchend = function(){
+        clearInterval(maincountdown);
+        if( (dif1 >-30 && dif1 <30) && (brotate>90 && brotate<270) && obj1!=1){
+         document.getElementById("jump").style.display = "none";
+         end();
+        }
+       else if( (dif2 >-30 && dif2 <30) && (brotate>270 && brotate<360 || (brotate>0 && brotate<90)) && obj1!=1){
+              document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1a >-30 && dif1a <30) && (brotatea>90 && brotatea<270) && obj2!=1){
+            document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2a >-30 && dif2a <30) && (brotatea>270 && brotatea<360 || (brotatea>0 && brotatea<90)) && obj2!=1){
+             document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1a2 >-30 && dif1a2 <30) && (brotatea2>90 && brotatea2<270) && obj2!=1){
+           document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2a2 >-30 && dif2a2 <30) && (brotatea2>270 && brotatea2<360 || (brotatea2>0 && brotatea2<90)) && obj2!=1){
+            document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1b >-30 && dif1b <30) && (brotateb>90 && brotateb<270) && obj3!=1){
+           document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2b >-30 && dif2b <30) && (brotateb>270 && brotateb<360 || (brotateb>0 && brotateb<90)) && obj3!=1){
+             document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1b2 >-30 && dif1b2 <30) && (brotateb2>90 && brotateb2<270) && obj3!=1){
+            document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2b2 >-30 && dif2b2 <30) && (brotateb2>270 && brotateb2<360 || (brotateb2>0 && brotateb2<90)) && obj3!=1){
+          document.getElementById("jump").style.display = "none";
+           end();
+        }
+        if( (dif1b3 >-30 && dif1b3 <30) && (brotateb3>90 && brotateb3<270) && obj3!=1){
+            document.getElementById("jump").style.display = "none";
+            end();
+        }
+       else if( (dif2b3 >-30 && dif2b3 <30) && (brotateb3>270 && brotateb3<360 || (brotateb3>0 && brotateb3<90)) && obj3!=1){
+            document.getElementById("jump").style.display = "none";
+           end();
+        }
+        else{
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        clearInterval(maincountdown);
+            document.getElementsByTagName("audio")[3].play();
+            y = 730;
+            vy = 2;
+            g = 1;
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.beginPath();
+            ctx.fillStyle=color2apply;
+            ctx.arc(400,y,20,0,Math.PI*2,false);
+            ctx.fill();
+            by = by+bv;
+            by2 = by2+bv;
+            by3 = by3+bv;
+            if(bv > 6){
+                bv = 6;
+            }
+            draw();
+            draw2();
+            draw3();
+        }
+        
+    };
+    
+    function main(){
+        document.getElementsByTagName("audio")[1].play();
+        scorecounter();
+       dif1 = by+bradius-(y);
+       dif2 = by-bradius-(y);
+       dif1a = by2+bradiusa-(y);
+       dif2a = by2-bradiusa-(y);
+       dif1a2 = by2+(bradiusa-bwidtha-10)-(y);
+       dif2a2 = by2-(bradiusa-bwidtha-10)-(y);
+       dif1b = by3+bradiusb-(y);
+       dif2b = by3-bradiusb-(y);
+       dif1b2 = by3+(bradiusb-bwidthb-10)-(y);
+       dif2b2 = by3-(bradiusb-bwidthb-10)-(y);
+       dif1b3 = by3+(bradiusb - bwidthb-bwidthb2-15)-(y);
+       dif2b3 = by3-(bradiusb - bwidthb-bwidthb2-15)-(y);    
+       if( (dif1 >-30 && dif1 <30) && (brotate>90 && brotate<270) && obj1!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+           vy = 0;
+           g =0;
+           bv = 0;
+        }
+       else if( (dif2 >-30 && dif2 <30) && (brotate>270 && brotate<360 || (brotate>0 && brotate<90)) && obj1!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+        if( (dif1a >-30 && dif1a <30) && (brotatea>90 && brotatea<270) && obj2!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+       else if( (dif2a >-30 && dif2a <30) && (brotatea>270 && brotatea<360 || (brotatea>0 && brotatea<90)) && obj2!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+        if( (dif1a2 >-30 && dif1a2 <30) && (brotatea2>90 && brotatea2<270) && obj2!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+       else if( (dif2a2 >-30 && dif2a2 <30) && (brotatea2>270 && brotatea2<360 || (brotatea2>0 && brotatea2<90)) && obj2!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+        if( (dif1b >-30 && dif1b <30) && (brotateb>90 && brotateb<270) && obj3!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+       else if( (dif2b >-30 && dif2b <30) && (brotateb>270 && brotateb<360 || (brotateb>0 && brotateb<90)) && obj3!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+        if( (dif1b2 >-30 && dif1b2 <30) && (brotateb2>90 && brotateb2<270) && obj3!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+       else if( (dif2b2 >-30 && dif2b2 <30) && (brotateb2>270 && brotateb2<360 || (brotateb2>0 && brotateb2<90)) && obj3!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+        if( (dif1b3 >-30 && dif1b3 <30) && (brotateb3>90 && brotateb3<270) && obj3!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+       else if( (dif2b3 >-30 && dif2b3 <30) && (brotateb3>270 && brotateb3<360 || (brotateb3>0 && brotateb3<90)) && obj3!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+        }
+        
+        else {
+              ctx.clearRect(0,0,canvas.width,canvas.height);
+            by = by+bv;
+            by2 = by2+bv;
+            by3 = by3+bv;
+            if(bv > 6){
+                bv = 1;
+            }
+            
+            draw();
+            draw2();
+            draw3();
+            
+            ctx.beginPath();
+            ctx.fillStyle=color2apply;
+            ctx.arc(400,y,20,0,Math.PI*2,false);
+            ctx.fill();
+            bv++;
+            if(y<630){
+                y=y;
+            }
+            else{
+                y = y-vy;
+                vy=vy+g;
+                g = g-0.1;
+            }
+        }
+    }
+    }
+    function draw(){
+        ctx.translate(bx,by);
+        ctx.rotate(deg*brotate);
+        ctx.translate(-bx,-by);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidth;
+        ctx.arc(bx,by,bradius,0,Math.PI,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx,by,bradius,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx,by);
+        ctx.rotate(-deg*brotate);
+        ctx.translate(-bx,-by);
+        if(by>=1100){
+            by=by3-900;
+            bradius = Math.ceil(Math.random()*50+150);
+            rotateinc = Math.random()*0.5+0.1;
+            bwidth = Math.ceil(Math.random()*15+15);
+        }
+    }
+           function draw2(){
+        ctx.translate(bx2,by2);
+        ctx.rotate(deg*brotatea);
+        ctx.translate(-bx2,-by2);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidtha;
+        ctx.arc(bx2,by2,bradiusa,0,Math.PI,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.translate(bx2,by2);
+        ctx.rotate(-deg*brotatea);
+        ctx.translate(-bx2,-by2);
+        ctx.translate(bx2,by2);
+        ctx.rotate(deg*brotatea2);
+        ctx.translate(-bx2,-by2);
+        ctx.lineWidth = bwidtha2;
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa-bwidtha-10,0,Math.PI,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa-bwidtha-10,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.translate(bx2,by2);
+        ctx.rotate(-deg*brotatea2);
+        ctx.translate(-bx2,-by2);
+    
+        if(by2>=1100){
+            by2=by-700;
+            bradiusa = Math.ceil(Math.random()*50+150);
+            rotateinca = Math.random()*0.5+0.1;
+            rotateinca2 = rotateinca - 0.1;
+            bwidtha = Math.ceil(Math.random()*15+15);
+            bwidtha2 = Math.ceil(Math.random()*15+15);
+        }
+    }
+        
+    function draw3(){
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb);
+        ctx.translate(-bx3,-by3);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidthb;
+        ctx.arc(bx3,by3,bradiusb,0,Math.PI,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb);
+        ctx.translate(-bx3,-by3);
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb2);
+        ctx.translate(-bx3,-by3);
+        ctx.lineWidth=bwidthb2;
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb-bwidthb-10,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb-bwidthb-10,0,Math.PI,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb2);
+        ctx.translate(-bx3,-by3);
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb3);
+        ctx.translate(-bx3,-by3);
+        ctx.lineWidth=bwidthb3;
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb - bwidthb-bwidthb2-15,0,Math.PI,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb - bwidthb-bwidthb2-15,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb3);
+        ctx.translate(-bx3,-by3);
+        if(by3>=1100){
+            by3=by2 - 700;
+            bradiusb = Math.ceil(Math.random()*50+200);
+            rotateincb = Math.random()*0.2+0.3;;
+            rotateincb2 = rotateincb-0.1;
+            rotateincb3 = rotateincb2-0.1;
+            bwidthb = Math.ceil(Math.random()*15+15);
+            bwidthb2 = Math.ceil(Math.random()*15+15);
+            bwidthb3 = Math.ceil(Math.random()*15+15);
+        }
+    }
+        
+    var timer = setInterval(rotateupdate,5);
+    function rotateupdate(){
+        brotate = brotate+rotateinc;
+        brotatea = brotatea+rotateinca;
+        brotatea2 = brotatea2+rotateinca2;
+        brotateb = brotateb+rotateincb;
+        brotateb2 = brotateb2+rotateincb2;
+        brotateb3 = brotateb3+rotateincb3;
+       if(brotate>=360){
+            brotate=0.001;
+       }
+        if(brotatea>=360){
+            brotatea=0.001;
+       }
+        if(brotatea2>=360){
+            brotatea2=0.001;
+       }
+        if(brotateb>=360){
+            brotateb=0.001;
+       }
+        if(brotateb2>=360){
+            brotateb2=0.001;
+       }
+        if(brotateb3>=360){
+            brotateb3=0.001;
+       }
+        bv = 6;
+         draw();
+         draw2();
+         draw3();
+        
+    }
+    document.getElementById("pause").onclick = function(){
+        document.getElementsByTagName("audio")[0].pause();
+        var y = -2000;
+        var vy = 0;
+        var g = 0;
+        var bv = 0;
+        var bg = 0;
+        clearInterval(timer);
+        document.getElementById("resume").disabled = false;
+        document.getElementById("pause").disabled = true;
+        document.getElementsByTagName("audio")[4].play();
+        document.getElementById("jump").disabled = true;
+    }
+    document.getElementById("resume").onclick = function(){
+        document.getElementsByTagName("audio")[0].play();
+        var y = 730;
+        var vy = 2;
+        var g = 1;
+        var bv = 1;
+        var bg = 1;
+        timer = setInterval(rotateupdate,1);
+        document.getElementById("resume").disabled = true;
+        document.getElementById("pause").disabled = false;
+        document.getElementsByTagName("audio")[4].play();
+        document.getElementById("jump").disabled = false;
+    }
+    document.getElementById("reset").onclick = function(){
+        window.location.reload();
+        document.getElementsByTagName("audio")[4].play();
+    }
+    function scorecounter(){
+        score = score+0.1;
+        document.getElementById("score").innerText = Math.floor(score);
+        if(Math.floor(score)>window.localStorage.getItem("SCOREN")){
+            best = Math.floor(score);
+            window.localStorage.setItem("SCOREN",best);
+            document.getElementById("score2").innerText = window.localStorage.getItem("SCOREN");   
+            
+        }
+    }
+    
+    function end(){
+        document.getElementById("endscreen").style.visibility = "visible";
+        document.getElementById("endscore").innerText = Math.floor(score);
+                document.getElementById("pause").disabled = true;
+                document.getElementById("resume").disabled = true;
+        document.getElementsByTagName("audio")[2].pause();
+    }
+    
+    </script>
+</html>

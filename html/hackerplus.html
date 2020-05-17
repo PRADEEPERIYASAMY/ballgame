@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colors</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/doodle/48/000000/controller--v1.png" type="image/x-icon">
+    <link href="/css/hackerplus.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+     <div class="div1">
+        <canvas id="canvas">hhh</canvas>
+        <div class="butHolder"><button id="start" class="btn start"></button><button id="pause"  class="btn pause"></button><button id="resume" class="btn resume"></button><button id="reset" class="btn restart"></button></div>
+    </div>
+    <div class="scoreholder"><p class="scorefont">score</p><p class="score" id="score"></p></div>
+    <div id="endscreen" class="endscreen"><p id="endscore" class="endscore"></p></div>
+    <button class="jump" id="jump"></button>
+    <button class="jump2" id = "jumpa"></button>
+    <div id="endscreenx" class="endscreen2"><p id="endscorex" class="endscore2"></p></div>
+    <div class="div2" >
+        <canvas id="canvasx" class="canvas2" >hhh</canvas>
+    </div>
+    <div class="scoreholder2"><p class="scorefont2">score</p><p class="score2" id="scorex"></p></div>
+    
+    <audio controls loop preload="auto" style="display: none">
+        <source src="/audios/bgm.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/jump.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/collision.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/hit.wav" type="audio/wav">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/click.ogg" type="audio/ogg">
+    </audio>
+    <audio controls preload="auto" style="display: none">
+        <source src="/audios/coin.wav" type="audio/ogg">
+    </audio>
+</body>
+     <script>
+        document.getElementById("jump").style.display = "none";
+        document.getElementById("jumpa").style.display = "none";
+         var stop = false;
+         var stopx = false;
+         /*SCREEN1*/
+        var y = 730;
+        var vy = 1;
+        var g = 1;
+        var by = -150;
+        var by2 = by-700;
+        var by5 = by2 -700;
+        var by3 = by5-700;
+        var by4 = by3-700;
+        var bx = 400;
+        var bx2 = 420;
+        var bx3 = 370;
+        var bx5 = 0;
+        var bx5inc = 1;
+        var bv = 4;
+        var bg = 1;
+        var obj1 = 0;
+        var obj2 = 0;
+        var obj3 = 0;
+        var deg = Math.PI/180;
+        var brotate =1.1;
+        var brotatea =1.1;
+        var brotatea2 =1.1;
+        var brotateb =1.1;
+        var brotateb2 =1.1;
+        var brotateb3 =1.1;
+        var brotate3 =1.1;
+        var brotatea3 =1.1;
+        var brotatea23 =1.1;
+        var brotateb3 =1.1;
+        var brotateb23 =1.1;
+        var brotateb33 =1.1;
+        var rotateinc = 0.5;
+        var rotateinca = 0.4;
+        var rotateinca2 = 0.3;
+        var rotateincb = 0.4;
+        var rotateincb2 = 0.3;
+        var rotateincb3 = 0.2;
+        var bwidth = 20;
+        var bwidtha = 30;
+        var bwidtha2 = 20;
+        var bwidthb = 15;
+        var bwidthb2 = 20;
+        var bwidthb3 = 17;
+        var rand = 1;
+        var randa = 1;
+        var randb = 1;
+         var randc = 1;
+         var fireball = 10;
+        var canvas = document.getElementById("canvas");
+        canvas.width = 1600;
+        canvas.height = 1800;
+        var ctx = canvas.getContext("2d");
+        ctx.scale(2,2);
+        var bradius = 100;
+        var bradiusa = 160;
+        var bradiusb = 170;
+        var color;
+        var color1store = randomColor();
+        var color2store = randomColora();
+        var color3store = randomColorb();
+        var color1apply = color1store;
+        var color2apply = color2store;
+        var color3apply = color3store;
+        var dif1;
+        var dif2;
+        var dif1a;
+        var dif2a;
+        var dif1a2;
+        var dif2a2;
+        var dif1b;
+        var dif2b;
+        var dif1b2;
+        var dif2b2;
+        var dif1b3;
+        var dif2b3;
+        var time = 0;
+         
+        var coin = new Image();
+         var coincount = 0;
+         var fire = new Image();
+         var firecount = 0;
+         var torch = new Image();
+         var torchcount = 0;
+        
+        var scoreTimer;
+        var maincountdown;
+         
+         
+         /*SCREEN2*/
+         
+        var yx = 730;
+        var vyx = 2;
+        var gx = 1;
+        var byx = -150;
+        var by2x = byx-700;
+        var by5x = by2x -700;
+        var by3x = by5x-700;
+        var by4x = by3x-700;
+        var bxx = 400;
+        var bx2x = 420;
+        var bx3x = 370;
+        var bx5x = 0;
+        var bx5incx = 1;
+        var bvx = 4;
+        var bgx = 1;
+        var obj1x = 0;
+        var obj2x = 0;
+        var obj3x = 0;
+        var degx = Math.PI/180;
+        var brotatex =1.1;
+        var brotateax =1.1;
+        var brotatea2x =1.1;
+        var brotatebx =1.1;
+        var brotateb2x =1.1;
+        var brotateb3x =1.1;
+        var brotate3x =1.1;
+        var brotatea3x =1.1;
+        var brotatea23x =1.1;
+        var brotateb3x =1.1;
+        var brotateb23x =1.1;
+        var brotateb33x =1.1;
+        var rotateincx = 0.5;
+        var rotateincax = 0.4;
+        var rotateinca2x = 0.3;
+        var rotateincbx = 0.4;
+        var rotateincb2x = 0.3;
+        var rotateincb3x = 0.2;
+        var bwidthx = 20;
+        var bwidthax = 30;
+        var bwidtha2x = 20;
+        var bwidthbx = 15;
+        var bwidthb2x = 20;
+        var bwidthb3x = 17;
+        var randx = 1;
+        var randax = 1;
+        var randbx = 1;
+        var randcx = 1;
+        var fireballx = 10;
+        var canvasx = document.getElementById("canvasx");
+        canvasx.width = 1600;
+        canvasx.height = 1800;
+        var ctxx = canvasx.getContext("2d");
+        ctxx.scale(2,2);
+        var bradiusx = 100;
+        var bradiusax = 160;
+        var bradiusbx = 170;
+        var colorx;
+        var color1storex = randomColorx();
+        var color2storex = randomColorax();
+        var color3storex = randomColorbx();
+        var color1applyx = color1storex;
+        var color2applyx = color2storex;
+        var color3applyx = color3storex;
+        var dif1x;
+        var dif2x;
+        var dif1ax;
+        var dif2ax;
+        var dif1a2x;
+        var dif2a2x;
+        var dif1bx;
+        var dif2bx;
+        var dif1b2x;
+        var dif2b2x;
+        var dif1b3x;
+        var dif2b3x;
+        var timex = 0;
+        var scoreTimer;
+        var scoreTimerx;
+        var maincountdown;
+        var maincountdownx;
+         
+         var coinx = new Image();
+         var coincountx = 0;
+         var firex = new Image();
+         var firecountx = 0;
+         var torchx = new Image();
+         var torchcountx = 0;
+        
+        var clearmain=0;
+         var clearmainx = 0;
+         
+         var start = 0;
+         var now = 0;
+         var duration = 0;
+         
+         var startx = 0;
+         var nowx = 0;
+         var durationx = 0;
+         
+    document.getElementById("start").onclick = function(){
+        fireball = 0;
+        fireballx = 0;
+        document.getElementById("start").disabled = "true";
+        document.getElementById("jump").style.display = "block";
+        document.getElementById("jumpa").style.display = "block";
+        document.getElementsByTagName("audio")[0].play();
+        canvas.style.backgroundColor="rgb(41,20,100)";
+        canvas.style.backgroundImage="none";
+        /*SCREEN1*/
+        randomColor();
+        ctx.beginPath();
+        ctx.fillStyle=color2apply;
+        ctx.arc(400,y,20,0,Math.PI*2,false);
+        ctx.fill();
+        
+        /*SCREEN2*/
+        
+        canvasx.style.backgroundColor="rgb(41,20,100)";
+        canvasx.style.backgroundImage="none";
+        ctxx.beginPath();
+        ctxx.fillStyle=color2applyx;
+        ctxx.arc(400,yx,20,0,Math.PI*2,false);
+        ctxx.fill();
+        
+        function clearmaincx(){
+        clearInterval(maincountdownx);
+        clearTimeout(scoreTimerx);
+        if( (dif1x >-30 && dif1x <30) && (brotatex>90 && brotatex<270) && obj1x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2x >-30 && dif2x <30) && (brotatex>270 && brotatex<360 || (brotatex>0 && brotatex<90)) && obj1x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1ax >-30 && dif1ax <30) && (brotateax>90 && brotateax<270) && obj2x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2ax >-30 && dif2ax <30) && (brotateax>270 && brotateax<360 || (brotateax>0 && brotateax<90)) && obj2x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1a2x >-30 && dif1a2x <30) && (brotatea2x>90 && brotatea2x<270) && obj2x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2a2x >-30 && dif2a2x <30) && (brotatea2x>270 && brotatea2x<360 || (brotatea2x>0 && brotatea2x<90)) && obj2x!=1){
+               document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1bx >-30 && dif1bx <30) && (brotatebx>90 && brotatebx<270) && obj3x!=1){
+               document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2bx >-30 && dif2bx <30) && (brotatebx>270 && brotatebx<360 || (brotatebx>0 && brotatebx<90)) && obj3x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1b2x >-30 && dif1b2x <30) && (brotateb2x>90 && brotateb2x<270) && obj3x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2b2x >-30 && dif2b2x <30) && (brotateb2x>270 && brotateb2x<360 || (brotateb2x>0 && brotateb2x<90)) && obj3x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1b3x >-30 && dif1b3x <30) && (brotateb3x>90 && brotateb3x<270) && obj3x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2b3x >-30 && dif2b3x <30) && (brotateb3x>270 && brotateb3x<360 || (brotateb3x>0 && brotateb3x<90)) && obj3x!=1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1x >-30 && dif1x <30) && (brotate3x>90 && brotate3x<330) && obj1x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2x >-30 && dif2x <30) && (brotate3x>270 && brotate3x<360 || (brotate3x>0 && brotate3x<90)) && obj1x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1ax >-30 && dif1ax <30) && (brotatea3x>90 && brotatea3x<330) && obj2x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2ax >-30 && dif2ax <30) && (brotatea3x>270 && brotatea3x<360 || (brotatea3x>0 && brotatea3x<150) && obj2x == 1)){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1a2x >-30 && dif1a2x <30) && (brotatea23x>90 && brotatea23x<330) && obj2x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2a2x >-30 && dif2a2x <30) && (brotatea23x>270 && brotatea23x<360 || (brotatea23x>0 && brotatea23x<150)) && obj2x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1bx >-30 && dif1bx <30) && (brotateb3x>90 && brotateb3x<330) && obj3x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2bx >-30 && dif2bx <30) && (brotateb3x>270 && brotateb3x<360 || (brotateb3x>0 && brotateb3x<150)) && obj3x == 1){
+               document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1b2x >-30 && dif1b2x <30) && (brotateb23x>90 && brotateb23x<330) && obj3x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2b2x >-30 && dif2b2x <30) && (brotateb23x>270 && brotateb23x<360 || (brotateb23x>0 && brotateb23x<150)) && obj3x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+        if( (dif1b3x >-30 && dif1b3x <30) && (brotateb33x>90 && brotateb33x<330) && obj3x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+       else if( (dif2b3x >-30 && dif2b3x <30) && (brotateb33x>270 && brotateb33x<360 || (brotateb33x>0 && brotateb33x<150)) && obj3x == 1){
+                document.getElementById("jumpa").style.display = "none";
+                endx();
+        }
+            
+          else{
+            ctxx.clearRect(0,0,canvasx.width,canvasx.height);
+            yx = 730;
+            vyx = 2;
+            gx = 1;
+            if( fireballx ==0){
+             ctxx.beginPath();
+             ctxx.fillStyle=color2applyx;
+             ctxx.arc(400,yx,20,0,Math.PI*2,false);
+             ctxx.fill();
+            }
+            else if( fireballx == 1){
+                drawFirex();
+                drawTorchx();
+            }
+            byx = byx+bvx;
+            by2x = by2x+bvx;
+            by3x = by3x+bvx;
+            by4x = by4x+bvx;
+            by5x = by5x+bvx;
+            if(bvx > 4){
+                bvx = 4;
+            }
+        if(randx == 1){
+            drawx();
+        }
+        else{
+            drawax();
+        }
+        if(randax == 1){
+            draw2x();
+        }
+        else{
+            draw2ax();
+        }
+         if(randcx != 4){
+            draw5ax();
+        }
+        else{
+             draw5x();
+        }
+        if(randbx == 1){
+            draw3x();
+        }
+        else{
+            draw3ax();
+        }
+            draw4x();
+          }
+       
+    }
+         function clearmainc(){
+   clearInterval(maincountdown);
+        clearTimeout(scoreTimer);
+        if( (dif1 >-30 && dif1 <30) && (brotate>90 && brotate<270) && obj1!=1){
+            document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2 >-30 && dif2 <30) && (brotate>270 && brotate<360 || (brotate>0 && brotate<90)) && obj1!=1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1a >-30 && dif1a <30) && (brotatea>90 && brotatea<270) && obj2!=1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2a >-30 && dif2a <30) && (brotatea>270 && brotatea<360 || (brotatea>0 && brotatea<90)) && obj2!=1){
+               document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1a2 >-30 && dif1a2 <30) && (brotatea2>90 && brotatea2<270) && obj2!=1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2a2 >-30 && dif2a2 <30) && (brotatea2>270 && brotatea2<360 || (brotatea2>0 && brotatea2<90)) && obj2!=1){
+               document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1b >-30 && dif1b <30) && (brotateb>90 && brotateb<270) && obj3!=1){
+              document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2b >-30 && dif2b <30) && (brotateb>270 && brotateb<360 || (brotateb>0 && brotateb<90)) && obj3!=1){
+               document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1b2 >-30 && dif1b2 <30) && (brotateb2>90 && brotateb2<270) && obj3!=1){
+               document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2b2 >-30 && dif2b2 <30) && (brotateb2>270 && brotateb2<360 || (brotateb2>0 && brotateb2<90)) && obj3!=1){
+               document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1b3 >-30 && dif1b3 <30) && (brotateb3>90 && brotateb3<270) && obj3!=1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2b3 >-30 && dif2b3 <30) && (brotateb3>270 && brotateb3<360 || (brotateb3>0 && brotateb3<90)) && obj3!=1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1 >-30 && dif1 <30) && (brotate3>90 && brotate3<330) && obj1 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2 >-30 && dif2 <30) && (brotate3>270 && brotate3<360 || (brotate3>0 && brotate3<90)) && obj1 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1a >-30 && dif1a <30) && (brotatea3>90 && brotatea3<330) && obj2 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2a >-30 && dif2a <30) && (brotatea3>270 && brotatea3<360 || (brotatea3>0 && brotatea3<150) && obj2 == 1)){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1a2 >-30 && dif1a2 <30) && (brotatea23>90 && brotatea23<330) && obj2 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2a2 >-30 && dif2a2 <30) && (brotatea23>270 && brotatea23<360 || (brotatea23>0 && brotatea23<150)) && obj2 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1b >-30 && dif1b <30) && (brotateb3>90 && brotateb3<330) && obj3 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2b >-30 && dif2b <30) && (brotateb3>270 && brotateb3<360 || (brotateb3>0 && brotateb3<150)) && obj3 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1b2 >-30 && dif1b2 <30) && (brotateb23>90 && brotateb23<330) && obj3 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2b2 >-30 && dif2b2 <30) && (brotateb23>270 && brotateb23<360 || (brotateb23>0 && brotateb23<150)) && obj3 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        if( (dif1b3 >-30 && dif1b3 <30) && (brotateb33>90 && brotateb33<330) && obj3 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+       else if( (dif2b3 >-30 && dif2b3 <30) && (brotateb33>270 && brotateb33<360 || (brotateb33>0 && brotateb33<150)) && obj3 == 1){
+                document.getElementById("jump").style.display = "none";
+                end();
+        }
+        
+            else{
+                  ctx.clearRect(0,0,canvas.width,canvas.height);
+        clearInterval(maincountdown);
+        document.getElementsByTagName("audio")[3].play();
+            y = 730;
+            vy = 2;
+            g = 1;
+            if( fireball ==0){
+             ctx.beginPath();
+             ctx.fillStyle=color2apply;
+             ctx.arc(400,y,20,0,Math.PI*2,false);
+             ctx.fill();
+            }
+            else if( fireball == 1){
+                drawFire();
+                drawTorch();
+            }
+            by = by+bv;
+            by2 = by2+bv;
+            by3 = by3+bv;
+            by4 = by4+bv;
+            by5 = by5+bv;
+            if(bv > 4){
+                bv = 4;
+            }
+            
+        if(rand == 1){
+            draw();
+        }
+        else{
+            drawa();
+        }
+        if(randa == 1){
+            draw2();
+        }
+        else{
+            draw2a();
+        }
+        if(randc != 4){
+             draw5a();
+        }
+        else{
+             draw5();
+        }
+        if(randb == 1){
+            draw3();
+        }
+        else{
+            draw3a();
+        }
+            draw4();
+            
+        }
+    
+    }
+    addEventListener("keyup",function(e){
+        now = new Date();
+        duration = now - start;
+        nowx = new Date();
+        durationx = nowx - startx;
+        if(e.keyCode === 38 && durationx >100){
+            startx = nowx;
+          maincountdownx = setInterval(mainx,5);
+          clearmainx = setTimeout(clearmaincx,50);
+        }
+        else if(e.keyCode === 87 && duration >100){
+            start = now;
+            maincountdown = setInterval(main,5);
+          clearmain = setTimeout(clearmainc,50);
+        }
+    },false);
+    
+    document.getElementById("jump").ontouchend =  function(){
+        now = new Date();
+        duration = now - start;
+        if(durationx >100){
+            startx = nowx;
+          maincountdownx = setInterval(mainx,5);
+          clearmainx = setTimeout(clearmaincx,50);
+        }
+        
+    }
+    document.getElementById("jumpa").ontouchend = function(){
+        nowx = new Date();
+        durationx = nowx - startx;
+        if(duration >100){
+            start = now;
+            maincountdown = setInterval(main,5);
+          clearmain = setTimeout(clearmainc,50);
+        }
+    }
+        
+       function mainx(){
+        scoreTimerx = setTimeout(timingx,1000);
+        document.getElementsByTagName("audio")[1].play();
+       dif1x = byx+bradiusx-(yx);
+       dif2x = byx-bradiusx-(yx);
+       dif1ax = by2x+bradiusax-(yx);
+       dif2ax = by2x-bradiusax-(yx);
+       dif1a2x = by2x+(bradiusax-bwidthax-10)-(yx);
+       dif2a2x = by2x-(bradiusax-bwidthax-10)-(yx);
+       dif1bx = by3x+bradiusbx-(yx);
+       dif2bx = by3x-bradiusbx-(yx);
+       dif1b2x = by3x+(bradiusbx-bwidthbx-10)-(yx);
+       dif2b2x = by3x-(bradiusbx-bwidthbx-10)-(yx);
+       dif1b3x = by3x+(bradiusbx - bwidthbx-bwidthb2x-15)-(yx);
+       dif2b3x = by3x-(bradiusbx - bwidthbx-bwidthb2x-15)-(yx);
+    if( fireballx == 0){
+       if( (dif1x >-30 && dif1x <30) && (brotatex>90 && brotatex<270) && obj1x!=1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2x >-30 && dif2x <30) && (brotatex>270 && brotatex<360 || (brotatex>0 && brotatex<90)) && obj1x!=1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1ax >-30 && dif1ax <30) && (brotateax>90 && brotateax<270) && obj2x!=1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2ax >-30 && dif2ax <30) && (brotateax>270 && brotateax<360 || (brotateax>0 && brotateax<90)) && obj2x!=1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1a2x >-30 && dif1a2x <30) && (brotatea2x>90 && brotatea2x<270) && obj2x!=1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2a2x >-30 && dif2a2x <30) && (brotatea2x>270 && brotatea2x<360 || (brotatea2x>0 && brotatea2x<90)) && obj2x!=1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1bx >-30 && dif1bx <30) && (brotatebx>90 && brotatebx<270) && obj3x!=1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2bx >-30 && dif2bx <30) && (brotatebx>270 && brotatebx<360 || (brotatebx>0 && brotatebx<90)) && obj3x!=1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1b2x >-30 && dif1b2x <30) && (brotateb2x>90 && brotateb2x<270) && obj3x!=1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2b2x >-30 && dif2b2x <30) && (brotateb2x>270 && brotateb2x<360 || (brotateb2x>0 && brotateb2x<90)) && obj3x!=1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1b3x >-30 && dif1b3x <30) && (brotateb3x>90 && brotateb3x<270) && obj3x!=1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2b3x >-30 && dif2b3x <30) && (brotateb3x>270 && brotateb3x<360 || (brotateb3x>0 && brotateb3x<90)) && obj3x!=1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1x >-30 && dif1x <30) && (brotate3x>90 && brotate3x<330) && obj1x == 1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2x >-30 && dif2x <30) && (brotate3x>270 && brotate3x<360 || (brotate3x>0 && brotate3x<90)) && obj1x == 1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1ax >-30 && dif1ax <30) && (brotatea3x>90 && brotatea3x<330) && obj2x == 1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2ax >-30 && dif2ax <30) && (brotatea3x>270 && brotatea3x<360 || (brotatea3x>0 && brotatea3x<150) && obj2x == 1)){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1a2x >-30 && dif1a2x <30) && (brotatea23x>90 && brotatea23x<330) && obj2x == 1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2a2x >-30 && dif2a2x <30) && (brotatea23x>270 && brotatea23x<360 || (brotatea23x>0 && brotatea23x<150)) && obj2x == 1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1bx >-30 && dif1bx <30) && (brotateb3x>90 && brotateb3x<330) && obj3x == 1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2bx >-30 && dif2bx <30) && (brotateb3x>270 && brotateb3x<360 || (brotateb3x>0 && brotateb3x<150)) && obj3x == 1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1b2x >-30 && dif1b2x <30) && (brotateb23x>90 && brotateb23x<330) && obj3x == 1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2b2x >-30 && dif2b2x <30) && (brotateb23x>270 && brotateb23x<360 || (brotateb23x>0 && brotateb23x<150)) && obj3x == 1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+        if( (dif1b3x >-30 && dif1b3x <30) && (brotateb33x>90 && brotateb33x<330) && obj3x == 1){
+                clearInterval(timerx);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+       else if( (dif2b3x >-30 && dif2b3x <30) && (brotateb33x>270 && brotateb33x<360 || (brotateb33x>0 && brotateb33x<150)) && obj3x == 1){
+                clearInterval(timerx);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vyx = 0;
+           gx =0;
+           bvx = 0;
+           clearInterval(scoretimerx);
+        }
+    
+        else{
+              ctxx.clearRect(0,0,canvasx.width,canvasx.height);
+            if(by4x-yx >-20 && by4x-yx <20){
+            color1storex = randomColorx();
+            color2storex = randomColorax();
+            color3storex = randomColorbx();
+        }
+            byx = byx+bvx;
+            by2x = by2x+bvx;
+            by3x = by3x+bvx;
+            by4x = by4x+bvx;
+            by5x = by5x+bvx;
+            if(bvx > 4){
+                bvx = 4;
+            }
+            
+        if(randx == 1){
+            drawx();
+        }
+        else{
+            drawax();
+        }
+        if(randax == 1){
+            draw2x();
+        }
+        else{
+            draw2ax();
+        }
+         if(randcx != 4){
+             draw5ax();
+        }
+        else{
+             draw5x();
+        }
+        if(randbx == 1){
+            draw3x();
+        }
+        else{
+            draw3ax();
+        }
+            draw4x();
+            ctxx.beginPath();
+            ctxx.fillStyle=color2applyx;
+            ctxx.arc(400,yx,20,0,Math.PI*2,false);
+            ctxx.fill();
+            bvx++;
+            if(yx<680){
+                yx=yx;
+            }
+            else{
+                yx = yx-vyx;
+                vyx=vyx+gx;
+                gx = gx-0.1;
+            }
+            if(by5x-yx >(-30) && by5x-yx<30 && randcx == 4){
+                fireballx = 1;
+                by5x = 1100;
+            }
+            if(by5x-yx >(-150) && by5x-yx<10 && randcx != 4 && (bx5x>290 && bx5x<380)){
+                timex = timex+200;
+                by5x = 1100;
+                document.getElementsByTagName("audio")[5].play();
+            }
+        }
+    }
+     else{
+            if(by4x-yx >-20 && by4x-yx <20){
+            color1storex = randomColorx();
+            color2storex = randomColorax();
+            color3storex = randomColorbx();
+        }
+            byx = byx+bvx;
+            by2x = by2x+bvx;
+            by3x = by3x+bvx;
+            by4x = by4x+bvx;
+            by5x = by5x+bvx;
+            if(bvx > 4){
+                bvx = 4;
+            }
+            
+        if(randx == 1){
+            drawx();
+        }
+        else{
+            drawax();
+        }
+        if(randax == 1){
+            draw2x();
+        }
+        else{
+            draw2ax();
+        }
+         if(randcx != 4){
+             draw5ax();
+        }
+        else{
+             draw5x();
+        }
+        if(randbx == 1){
+            draw3x();
+        }
+        else{
+            draw3ax();
+        }
+            draw4x();
+            if( fireballx == 0){
+             ctxx.beginPath();
+             ctxx.fillStyle=color2applyx;
+             ctxx.arc(400,yx,20,0,Math.PI*2,false);
+             ctxx.fill();
+            }
+            else if(fireballx == 1){
+                drawFirex();
+                drawTorchx();
+            }
+            bvx++;
+            if(yx<680){
+                yx=yx;
+            }
+            else{
+                yx = yx-vyx;
+                vyx=vyx+gx;
+                gx = gx-0.1;
+            }  
+        }
+        
+    }
+      function main(){
+     scoreTimer = setTimeout(timing,1000);
+        document.getElementsByTagName("audio")[1].play();
+         dif1 = by+bradius-(y);
+       dif2 = by-bradius-(y);
+       dif1a = by2+bradiusa-(y);
+       dif2a = by2-bradiusa-(y);
+       dif1a2 = by2+(bradiusa-bwidtha-10)-(y);
+       dif2a2 = by2-(bradiusa-bwidtha-10)-(y);
+       dif1b = by3+bradiusb-(y);
+       dif2b = by3-bradiusb-(y);
+       dif1b2 = by3+(bradiusb-bwidthb-10)-(y);
+       dif2b2 = by3-(bradiusb-bwidthb-10)-(y);
+       dif1b3 = by3+(bradiusb - bwidthb-bwidthb2-15)-(y);
+       dif2b3 = by3-(bradiusb - bwidthb-bwidthb2-15)-(y); 
+        if( fireball == 0){
+       if( (dif1 >-30 && dif1 <30) && (brotate>90 && brotate<270) && obj1!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2 >-30 && dif2 <30) && (brotate>270 && brotate<360 || (brotate>0 && brotate<90)) && obj1!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1a >-30 && dif1a <30) && (brotatea>90 && brotatea<270) && obj2!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2a >-30 && dif2a <30) && (brotatea>270 && brotatea<360 || (brotatea>0 && brotatea<90)) && obj2!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1a2 >-30 && dif1a2 <30) && (brotatea2>90 && brotatea2<270) && obj2!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2a2 >-30 && dif2a2 <30) && (brotatea2>270 && brotatea2<360 || (brotatea2>0 && brotatea2<90)) && obj2!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1b >-30 && dif1b <30) && (brotateb>90 && brotateb<270) && obj3!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2b >-30 && dif2b <30) && (brotateb>270 && brotateb<360 || (brotateb>0 && brotateb<90)) && obj3!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1b2 >-30 && dif1b2 <30) && (brotateb2>90 && brotateb2<270) && obj3!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2b2 >-30 && dif2b2 <30) && (brotateb2>270 && brotateb2<360 || (brotateb2>0 && brotateb2<90)) && obj3!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1b3 >-30 && dif1b3 <30) && (brotateb3>90 && brotateb3<270) && obj3!=1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2b3 >-30 && dif2b3 <30) && (brotateb3>270 && brotateb3<360 || (brotateb3>0 && brotateb3<90)) && obj3!=1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1 >-30 && dif1 <30) && (brotate3>90 && brotate3<330) && obj1 == 1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2 >-30 && dif2 <30) && (brotate3>270 && brotate3<360 || (brotate3>0 && brotate3<90)) && obj1 == 1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1a >-30 && dif1a <30) && (brotatea3>90 && brotatea3<330) && obj2 == 1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2a >-30 && dif2a <30) && (brotatea3>270 && brotatea3<360 || (brotatea3>0 && brotatea3<150) && obj2 == 1)){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1a2 >-30 && dif1a2 <30) && (brotatea23>90 && brotatea23<330) && obj2 == 1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2a2 >-30 && dif2a2 <30) && (brotatea23>270 && brotatea23<360 || (brotatea23>0 && brotatea23<150)) && obj2 == 1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1b >-30 && dif1b <30) && (brotateb3>90 && brotateb3<330) && obj3 == 1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2b >-30 && dif2b <30) && (brotateb3>270 && brotateb3<360 || (brotateb3>0 && brotateb3<150)) && obj3 == 1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1b2 >-30 && dif1b2 <30) && (brotateb23>90 && brotateb23<330) && obj3 == 1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2b2 >-30 && dif2b2 <30) && (brotateb23>270 && brotateb23<360 || (brotateb23>0 && brotateb23<150)) && obj3 == 1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        if( (dif1b3 >-30 && dif1b3 <30) && (brotateb33>90 && brotateb33<330) && obj3 == 1){
+                clearInterval(timer);
+            document.getElementsByTagName("audio")[2].play();
+            document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+       else if( (dif2b3 >-30 && dif2b3 <30) && (brotateb33>270 && brotateb33<360 || (brotateb33>0 && brotateb33<150)) && obj3 == 1){
+                clearInterval(timer);
+           document.getElementsByTagName("audio")[2].play();
+           document.getElementsByTagName("audio")[0].pause();
+                vy = 0;
+           g =0;
+           bv = 0;
+           clearInterval(scoreTimer);
+        }
+        else {
+              ctx.clearRect(0,0,canvas.width,canvas.height);
+                if(by4-y >-20 && by4-y <20){
+            color1store = randomColor();
+            color2store = randomColoar();
+            color3store = randomColobr();
+        }
+            by = by+bv;
+            by2 = by2+bv;
+            by3 = by3+bv;
+            by4 = by4+bv;
+            by5 = by5+bv;
+            if(bv > 4){
+                bv = 4;
+            }
+            
+        if(rand == 1){
+            draw();
+        }
+        else{
+            drawa();
+        }
+        if(randa == 1){
+            draw2();
+        }
+        else{
+            draw2a();
+        }
+        if(randc != 4){
+             draw5a();
+        }
+        else{
+             draw5();
+        }
+        if(randb == 1){
+            draw3();
+        }
+        else{
+            draw3a();
+        }
+            draw4();
+            ctx.beginPath();
+            ctx.fillStyle=color2apply;
+            ctx.arc(400,y,20,0,Math.PI*2,false);
+            ctx.fill();
+            bv++;
+            if(y<680){
+                y=y;
+            }
+            else{
+                y = y-vy;
+                vy=vy+g;
+                g = g-0.1;
+            }
+            if(by5-y >(-30) && by5-y<30 && randc == 4){
+                fireball = 1;
+                by5 = 1100;
+            }
+            if(by5-y >(-150) && by5-y<10 && randc != 4 && (bx5>290 && bx5<380)){
+                time = time+200;
+                by5 = 1100;
+                document.getElementsByTagName("audio")[5].play();
+            }
+        }
+        }
+      else{
+             if(by4-y >-20 && by4-y <20){
+            color1store = randomColor();
+            color2store = randomColoar();
+            color3store = randomColobr();
+        }
+            by = by+bv;
+            by2 = by2+bv;
+            by3 = by3+bv;
+            by4 = by4+bv;
+            by5 = by5+bv;
+            if(bv > 4){
+                bv = 4;
+            }
+            
+        if(rand == 1){
+            draw();
+        }
+        else{
+            drawa();
+        }
+        if(randa == 1){
+            draw2();
+        }
+        else{
+            draw2a();
+        }
+        if(randc != 4){
+             draw5a();
+        }
+        else{
+             draw5();
+        }
+        if(randb == 1){
+            draw3();
+        }
+        else{
+            draw3a();
+        }
+            draw4();
+            if( fireball == 0){
+             ctx.beginPath();
+             ctx.fillStyle=color2apply;
+             ctx.arc(400,y,20,0,Math.PI*2,false);
+             ctx.fill();
+            }
+            else if(fireball == 1){
+                drawFire();
+                drawTorch();
+            }
+            bv++;
+            if(y<680){
+                y=y;
+            }
+            else{
+                y = y-vy;
+                vy=vy+g;
+                g = g-0.1;
+            }
+      }
+    }
+     
+    }
+         
+    
+       function draw(){
+        ctx.translate(bx,by);
+        ctx.rotate(deg*brotate);
+        ctx.translate(-bx,-by);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidth;
+        ctx.arc(bx,by,bradius,0,Math.PI,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx,by,bradius,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx,by);
+        ctx.rotate(-deg*brotate);
+        ctx.translate(-bx,-by);
+        if(by>=1100){
+            by=by4-900;
+            bradius = Math.ceil(Math.random()*50+150);
+            rotateinc = Math.random()*0.5+0.1;
+            randomColor();
+            rand = Math.floor((Math.random()*2+1));
+            bx = Math.random()*100+350;
+            color1apply = color1store;
+            color2apply = color2store;
+            color3apply = color3store;
+            bwidth = Math.ceil(Math.random()*15+15);
+        }
+    }
+        function drawa(){
+        ctx.translate(bx,by);
+        ctx.rotate(deg*brotate3);
+        ctx.translate(-bx,-by);
+        ctx.beginPath();
+        ctx.lineWidth=20;
+        ctx.arc(bx,by,bradius,0,Math.PI*2/3,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx,by,bradius,Math.PI*2/3,Math.PI*4/3,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx,by,bradius,Math.PI*4/3,Math.PI*2,false);
+        ctx.strokeStyle=color3apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx,by);
+        ctx.rotate(-deg*brotate3);
+        ctx.translate(-bx,-by);
+        if(by>=1100){
+            by=by4-900;
+            bradius = Math.ceil(Math.random()*50+150);
+            rotateinc = Math.random()*0.5+0.1;
+            randomColor();
+            rand = Math.floor((Math.random()*2+1));
+            bx = Math.random()*100+350;
+            bwidth = Math.ceil(Math.random()*15+15);
+        }
+        if(by<0){
+            color1apply = color1store;
+            color2apply = color2store;
+            color3apply = color3store;
+        }
+        if(by-y > -(bradius+2*bwidth) && by-y<(bradius+2*bwidth)){
+            obj1 = 1;
+        }
+        else{
+            obj1 = 0;
+        }
+    }
+    function draw2(){
+        ctx.translate(bx2,by2);
+        ctx.rotate(deg*brotatea);
+        ctx.translate(-bx2,-by2);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidtha;
+        ctx.arc(bx2,by2,bradiusa,0,Math.PI,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.translate(bx2,by2);
+        ctx.rotate(-deg*brotatea);
+        ctx.translate(-bx2,-by2);
+        ctx.translate(bx2,by2);
+        ctx.rotate(deg*brotatea2);
+        ctx.translate(-bx2,-by2);
+        ctx.lineWidth = bwidtha2;
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa-bwidtha-10,0,Math.PI,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa-bwidtha-10,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.translate(bx2,by2);
+        ctx.rotate(-deg*brotatea2);
+        ctx.translate(-bx2,-by2);
+    
+        if(by2>=1100){
+            by2=by-700;
+            bradiusa = Math.ceil(Math.random()*50+150);
+            rotateinca = Math.random()*0.5+0.1;
+            rotateinca2 = rotateinca - 0.1;
+            randomColor();
+            randa = Math.floor((Math.random()*2+1));
+            bx2 = Math.random()*100+350;
+            bwidtha = Math.ceil(Math.random()*15+15);
+            bwidtha2 = Math.ceil(Math.random()*15+15);
+        }
+        if(by2<0){
+            color1apply = color1store;
+            color2apply = color2store;
+            color3apply = color3store;
+        }
+    }
+        function draw2a(){
+        ctx.translate(bx2,by2);
+        ctx.rotate(deg*brotatea3);
+        ctx.translate(-bx2,-by2);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidtha;
+        ctx.arc(bx2,by2,bradiusa,0,Math.PI*2/3,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa,Math.PI*2/3,Math.PI*4/3,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa,Math.PI*4/3,Math.PI*2,false);
+        ctx.strokeStyle=color3apply;
+        ctx.stroke();
+        ctx.translate(bx2,by2);
+        ctx.rotate(-deg*brotatea3);
+        ctx.translate(-bx2,-by2);
+        ctx.translate(bx2,by2);
+        ctx.rotate(deg*brotatea23);
+        ctx.translate(-bx2,-by2);
+        ctx.lineWidth=bwidtha2;
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa-bwidtha-10,0,Math.PI*2/3,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa-bwidtha-10,Math.PI*2/3,Math.PI*4/3,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(bx2,by2,bradiusa-bwidtha-10,Math.PI*4/3,Math.PI*2,false);
+        ctx.strokeStyle=color3apply;
+        ctx.stroke();
+        ctx.translate(bx2,by2);
+        ctx.rotate(-deg*brotatea23);
+        ctx.translate(-bx2,-by2);
+        if(by2>=1100){
+            by2=by-700;
+            bradiusa = Math.ceil(Math.random()*50+200);
+            rotateinca = Math.random()*0.5+0.1;
+            rotateinca2 = rotateinca - 0.1;
+            randomColor();
+            randa = Math.floor((Math.random()*2+1));
+            bx2 = Math.random()*100+350;
+            bwidtha = Math.ceil(Math.random()*15+15);
+            bwidtha2 = Math.ceil(Math.random()*15+15);
+            
+        }
+            if(by2<0){
+            color1apply = color1store;
+            color2apply = color2store;
+            color3apply = color3store;
+        }
+            if(by2-y > -(bradiusa+2*bwidtha) && by2-y<(bradiusa+2*bwidtha)){
+            obj2 = 1;
+        }
+            else{
+            obj2= 0;
+        }
+    }
+    function draw3(){
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb);
+        ctx.translate(-bx3,-by3);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidthb;
+        ctx.arc(bx3,by3,bradiusb,0,Math.PI,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb);
+        ctx.translate(-bx3,-by3);
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb2);
+        ctx.translate(-bx3,-by3);
+        ctx.lineWidth=bwidthb2;
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb-bwidthb-10,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb-bwidthb-10,0,Math.PI,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb2);
+        ctx.translate(-bx3,-by3);
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb3);
+        ctx.translate(-bx3,-by3);
+        ctx.lineWidth=bwidthb3;
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb - bwidthb-bwidthb2-15,0,Math.PI,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb - bwidthb-bwidthb2-15,Math.PI,Math.PI*2,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb3);
+        ctx.translate(-bx3,-by3);
+        if(by3>=1100){
+            by3=by5 - 700;
+            bradiusb = Math.ceil(Math.random()*50+200);
+            rotateincb = Math.random()*0.2+0.3;;
+            rotateincb2 = rotateincb-0.1;
+            rotateincb3 = rotateincb2 - 0.1;
+            randomColor();
+            randb = Math.floor((Math.random()*2+1));
+            bx3 = Math.random()*100+350;
+            bwidthb = Math.ceil(Math.random()*15+15);
+            bwidthb2 = Math.ceil(Math.random()*15+15);
+            bwidthb3 = Math.ceil(Math.random()*15+15);
+        }
+        if(by3<0){
+            color1apply = color1store;
+            color2apply = color2store;
+            color3apply = color3store;
+        }
+    }
+        function draw3a(){
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb3);
+        ctx.translate(-bx3,-by3);
+        ctx.beginPath();
+        ctx.strokeStyle=color1apply;
+        ctx.lineWidth=bwidthb;
+        ctx.arc(bx3,by3,bradiusb,0,Math.PI*2/3,true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb,Math.PI*2/3,Math.PI*4/3,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb,Math.PI*4/3,Math.PI*2,false);
+        ctx.strokeStyle=color3apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb3);
+        ctx.translate(-bx3,-by3);
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb23);
+        ctx.translate(-bx3,-by3);
+        ctx.lineWidth=bwidthb2;
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb-bwidthb-10,0,Math.PI*2/3,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb-bwidthb-10,Math.PI*2/3,Math.PI*4/3,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb-bwidthb-10,Math.PI*4/3,Math.PI*2,false);
+        ctx.strokeStyle=color3apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb23);
+        ctx.translate(-bx3,-by3);
+        ctx.translate(bx3,by3);
+        ctx.rotate(deg*brotateb33);
+        ctx.translate(-bx3,-by3);
+        ctx.lineWidth=bwidthb3;
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb - bwidthb-bwidthb2-15,0,Math.PI*2/3,true);
+        ctx.strokeStyle=color1apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb - bwidthb-bwidthb2-15,Math.PI*2/3,Math.PI*4/3,true);
+        ctx.strokeStyle=color2apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(bx3,by3,bradiusb - bwidthb-bwidthb2-15,Math.PI*4/3,Math.PI*2,false);
+        ctx.strokeStyle=color3apply;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.translate(bx3,by3);
+        ctx.rotate(-deg*brotateb33);
+        ctx.translate(-bx3,-by3);
+        if(by3>=1100){
+            by3=by5-700;
+            bradiusb = Math.ceil(Math.random()*50+250);
+            rotateincb = Math.random()*0.1+0.2;
+            rotateincb2 = rotateincb-0.1;
+            rotateincb3 = rotateincb2 - 0.1;
+            randomColor();
+            randb = Math.floor((Math.random()*2+1));
+            bx3 = Math.random()*100+350;
+            bwidthb = Math.ceil(Math.random()*15+15);
+            bwidthb2 = Math.ceil(Math.random()*15+15);
+            bwidthb3 = Math.ceil(Math.random()*15+15);
+        }
+            if(by3<0){
+            color1apply = color1store;
+            color2apply = color2store;
+            color3apply = color3store;
+        }
+            if(by3-y > -(bradiusb+2*bwidthb) && by3-y<(bradiusb+2*bwidthb)){
+            obj3 = 1;
+        }
+            else{
+            obj3 = 0;
+        }
+    }
+    
+    function draw5(){
+        ctx.beginPath();
+        ctx.fillStyle="orange";
+        ctx.arc(400,by5,40,0,Math.PI*2,false);
+        ctx.fill();
+        if(by5>=1100){
+            by5=by2-700;
+            randc = Math.floor(Math.random()*4+1);
+            
+        }
+        if(by >250 && by <300){
+            fireball = 0;
+        }
+    }
+    function draw5a(){
+        if(coincount>=0 && coincount <30){
+            coin.src = "/images/coin1.png";
+            bx5 = bx5+bx5inc;
+        }
+        else if(coincount>=30 && coincount <60){
+            coin.src = "/images/coin2.png";
+            bx5 = bx5+bx5inc;
+        }
+        else if(coincount>=60 && coincount <90){
+            coin.src = "/images/coin3.png";
+            bx5 = bx5+bx5inc;
+        }
+        else if(coincount>=90 && coincount <120){
+            coin.src = "/images/coin4.png";
+            bx5 = bx5+bx5inc;
+        }
+        else if(coincount>=120 && coincount <150){
+            coin.src = "/images/coin5.png";
+            bx5 = bx5+bx5inc;
+        }
+        else if(coincount>=150 && coincount <180){
+            coin.src = "/images/coin6.png";
+            bx5 = bx5+bx5inc;
+        }
+        else if(coincount>=180 && coincount <210){
+            coin.src = "/images/coin7.png";
+            bx5 = bx5+bx5inc;
+        }
+        ctx.drawImage(coin,bx5,by5);
+        coincount++;
+        if(bx5 > canvas.width-970){
+            bx5inc = -1;
+        }
+        else if (bx5 < 0){
+            bx5inc = 1;
+        }
+        if(coincount >210){
+            coincount =0;
+        }
+     
+        if(by5>=1100){
+            by5=by2-700;
+            randc = Math.floor(Math.random()*4+1);
+        }
+        if( by >250 && by <300){
+            fireball = 0;
+        }
+    }
+    function drawTorch(){
+           if(torchcount>=0 && torchcount <30){
+            torch.src = "/images/torch1.png";
+        }
+        else if(torchcount>=30 && torchcount <60){
+            torch.src = "/images/torch2.png";
+        }
+        else if(torchcount>=60 && torchcount <90){
+            torch.src = "/images/torch3.png";
+        }
+        else if(torchcount>=90 && torchcount <120){
+            torch.src = "/images/torch4.png";
+        }
+        else if(torchcount>=120 && torchcount <150){
+            torch.src = "/images/torch5.png";
+        }
+        else if(torchcount>=150 && torchcount <180){
+            torch.src = "/images/torch6.png";
+        }
+        else if(torchcount>=180 && torchcount <210){
+            torch.src = "/images/torch7.png";
+        }
+        else if(torchcount>=210 && torchcount <240){
+            torch.src = "/images/torch8.png";
+        }
+        ctx.drawImage(torch,20,520);
+        torchcount++;
+        if(torchcount >240){
+            torchcount =0;
+        }
+    }
+    function drawFire(){
+        if(firecount>=0 && firecount <30){
+            fire.src = "/images/fire1.png";
+        }
+        else if(firecount>=30 && firecount <60){
+            fire.src = "/images/fire2.png";
+        }
+        else if(firecount>=60 && firecount <90){
+            fire.src = "/images/fire3.png";
+        }
+        else if(firecount>=90 && firecount <120){
+            fire.src = "/images/fire4.png";
+        }
+        else if(firecount>=120 && firecount <150){
+            fire.src = "/images/fire5.png";
+        }
+        ctx.drawImage(fire,360,y);
+        firecount++;
+        if(firecount >150){
+            firecount = 0;
+        }
+    }
+    function draw4(){
+            ctx.beginPath();
+            ctx.fillStyle=color2apply;
+            ctx.arc(400,by4,30,0,Math.PI*2,false);
+            ctx.fill();
+        if(by4>=1100){
+            by4=by3-500;
+        }
+        if(by4-y >-1 && by4-y <1){
+           color1apply = color1store;
+            color2apply = color2store;
+            color3apply = color3store;
+           }
+    }
+    var timer = setInterval(rotateupdate,5);
+    function rotateupdate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        brotate = brotate+rotateinc;
+        brotatea = brotatea+rotateinca;
+        brotatea2 = brotatea2+rotateinca2;
+        brotateb = brotateb+rotateincb;
+        brotateb2 = brotateb2+rotateincb2;
+        brotateb3 = brotateb3+rotateincb3;
+        brotate3 = brotate3+rotateinc;
+        brotatea3 = brotatea3+rotateinca;
+        brotatea23 = brotatea23+rotateinca2;
+        brotateb3 = brotateb3+rotateincb;
+        brotateb23 = brotateb23+rotateincb2;
+        brotateb33 = brotateb33+rotateincb3;
+       if(brotate>=360){
+            brotate=0.001;
+       }
+        if(brotatea>=360){
+            brotatea=0.001;
+       }
+        if(brotatea2>=360){
+            brotatea2=0.001;
+       }
+        if(brotateb>=360){
+            brotateb=0.001;
+       }
+        if(brotateb2>=360){
+            brotateb2=0.001;
+       }
+        if(brotateb3>=360){
+            brotateb3=0.001;
+       }
+        if(brotate3>=360){
+            brotate3=0.001;
+       }
+        if(brotatea3>=360){
+            brotatea3=0.001;
+       }
+        if(brotatea23>=360){
+            brotatea23=0.001;
+       }
+        if(brotateb3>=360){
+            brotateb3=0.001;
+       }
+        if(brotateb23>=360){
+            brotateb23=0.001;
+       }
+        if(brotateb33>=360){
+            brotateb33=0.001;
+       }
+        bv = 4;
+        if(rand == 1){
+            draw();
+        }
+        else{
+            drawa();
+        }
+        if(randa == 1){
+            draw2();
+        }
+        else{
+            draw2a();
+        }
+        if(randc != 4){
+            draw5a();
+        }
+        else{
+            draw5();
+        }
+        if(randb == 1){
+            draw3();
+        }
+        else{
+            draw3a();
+        }
+        draw4();
+        if(by5-y >(-150) && by5-y<10 && randc != 4 && (bx5>290 && bx5<380)){
+                time = time+200;
+                by5 =1100 ;
+            document.getElementsByTagName("audio")[5].play();
+            }
+        if(by5-y >(-30) && by5-y<30 && randc == 4){
+                fireball = 1;
+                by5 = 1100;
+            }
+        
+        if(fireball == 0){
+             ctx.beginPath();
+             ctx.fillStyle=color2apply;
+             ctx.arc(400,y,20,0,Math.PI*2,false);
+             ctx.fill();
+            }
+            else if( fireball == 1){
+                drawFire();
+                drawTorch();
+            }
+        
+    }
+   function randomColor(){
+        let r = Math.ceil(Math.random()*255);
+        let g = Math.ceil(Math.random()*255);
+        let b = Math.ceil(Math.random()*255);
+        let color1 = "rgb("+String(r)+","+String(g)+","+String(b)+")";
+        return color1;
+    } 
+    function randomColora(){
+        let r = Math.ceil(Math.random()*70+90);
+        let g = Math.ceil(Math.random()*70+90);
+        let b = Math.ceil(Math.random()*70+90);
+        let color2 = "rgb("+String(r)+","+String(g)+","+String(b)+")";
+        return color2;
+    }
+        function randomColorb(){
+        let r = Math.ceil(Math.random()*70+180);
+        let g = Math.ceil(Math.random()*70+180);
+        let b = Math.ceil(Math.random()*70+180);
+        let color3 = "rgb("+String(r)+","+String(g)+","+String(b)+")";
+        return color3;
+    } 
+   document.getElementById("pause").onclick = function(){
+        document.getElementsByTagName("audio")[0].pause();
+        clearInterval(timer);
+        clearInterval(timerx);
+        clearInterval(rotateupdate);
+        clearInterval(rotateupdatex);
+        document.getElementById("resume").disabled = false;
+        document.getElementById("pause").disabled = true;
+    }
+    document.getElementById("resume").onclick = function(){
+        document.getElementsByTagName("audio")[0].play();
+        var y = 730;
+        var vy = 2;
+        var g = 1;
+        var bv = 1;
+        var bg = 1;
+        timer = setInterval(rotateupdate,1);
+        document.getElementById("resume").disabled = true;
+        document.getElementById("pause").disabled = false;
+    }
+    document.getElementById("reset").onclick = function(){
+        window.location.reload();
+    }
+    function end(){
+        document.getElementById("endscreen").style.visibility = "visible";
+        document.getElementById("endscore").innerText = Math.floor(time/20);
+        document.getElementById("pause").disabled = true;
+        document.getElementById("resume").disabled = true;
+        document.getElementsByTagName("audio")[2].pause();
+        stop = true;
+    }
+    function timing(){
+        if(!stop){
+          time++;   
+        }
+        document.getElementById("score").innerText = Math.floor(time/20);
+    }
+    
+        
+    function drawx(){
+        ctxx.translate(bxx,byx);
+        ctxx.rotate(degx*brotatex);
+        ctxx.translate(-bxx,-byx);
+        ctxx.beginPath();
+        ctxx.strokeStyle=color1applyx;
+        ctxx.lineWidth=bwidthx;
+        ctxx.arc(bxx,byx,bradiusx,0,Math.PI,true);
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bxx,byx,bradiusx,Math.PI,Math.PI*2,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bxx,byx);
+        ctxx.rotate(-degx*brotatex);
+        ctxx.translate(-bxx,-byx);
+        if(byx>=1100){
+            byx=by4x-900;
+            bradiusx = Math.ceil(Math.random()*50+150);
+            rotateincx = Math.random()*0.5+0.1;
+            randx = Math.floor((Math.random()*2+1));
+            bxx = Math.random()*100+350;
+            color1applyx = color1storex;
+            color2applyx = color2storex;
+            color3applyx = color3storex;
+            bwidthx = Math.ceil(Math.random()*15+15);
+        }
+    }
+        function drawax(){
+        ctxx.translate(bxx,byx);
+        ctxx.rotate(degx*brotate3x);
+        ctxx.translate(-bxx,-byx);
+        ctxx.beginPath();
+        ctxx.lineWidth=20;
+        ctxx.arc(bxx,byx,bradiusx,0,Math.PI*2/3,true);
+        ctxx.strokeStyle=color1applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bxx,byx,bradiusx,Math.PI*2/3,Math.PI*4/3,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bxx,byx,bradiusx,Math.PI*4/3,Math.PI*2,false);
+        ctxx.strokeStyle=color3applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bxx,byx);
+        ctxx.rotate(-degx*brotate3x);
+        ctxx.translate(-bxx,-byx);
+        if(byx>=1100){
+            byx=by4x-900;
+            bradiusx = Math.ceil(Math.random()*50+150);
+            rotateincx = Math.random()*0.5+0.1;
+            randx = Math.floor((Math.random()*2+1));
+            bxx = Math.random()*100+350;
+            bwidthx = Math.ceil(Math.random()*15+15);
+        }
+        if(byx<0){
+            color1applyx = color1storex;
+            color2applyx = color2storex;
+            color3applyx = color3storex;
+        }
+        if(byx-yx > -(bradiusx+2*bwidthx) && byx-yx<(bradiusx+2*bwidthx)){
+            obj1x = 1;
+        }
+        else{
+            obj1x = 0;
+        }
+    }
+    function draw2x(){
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(degx*brotateax);
+        ctxx.translate(-bx2x,-by2x);
+        ctxx.beginPath();
+        ctxx.strokeStyle=color1applyx;
+        ctxx.lineWidth=bwidthax;
+        ctxx.arc(bx2x,by2x,bradiusax,0,Math.PI,true);
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax,Math.PI,Math.PI*2,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(-degx*brotateax);
+        ctxx.translate(-bx2x,-by2x);
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(degx*brotatea2x);
+        ctxx.translate(-bx2x,-by2x);
+        ctxx.lineWidth = bwidtha2x;
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax-bwidthax-10,0,Math.PI,true);
+        ctxx.strokeStyle=color1applyx;
+        ctxx.stroke();
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax-bwidthax-10,Math.PI,Math.PI*2,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(-degx*brotatea2x);
+        ctxx.translate(-bx2x,-by2x);
+    
+        if(by2x>=1100){
+            by2x=byx-700;
+            bradiusax = Math.ceil(Math.random()*50+150);
+            rotateincax = Math.random()*0.5+0.1;
+            rotateinca2x = Math.random()*0.5+0.1;
+            randax = Math.floor((Math.random()*2+1));
+            bx2x = Math.random()*100+350;
+            bwidthax = Math.ceil(Math.random()*15+15);
+            bwidtha2x = Math.ceil(Math.random()*15+15);
+        }
+        if(by2x<0){
+            color1applyx = color1storex;
+            color2applyx = color2storex;
+            color3applyx = color3storex;
+        }
+    }
+        function draw2ax(){
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(degx*brotatea3x);
+        ctxx.translate(-bx2x,-by2x);
+        ctxx.beginPath();
+        ctxx.strokeStyle=color1applyx;
+        ctxx.lineWidth=bwidthax;
+        ctxx.arc(bx2x,by2x,bradiusax,0,Math.PI*2/3,true);
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax,Math.PI*2/3,Math.PI*4/3,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax,Math.PI*4/3,Math.PI*2,false);
+        ctxx.strokeStyle=color3applyx;
+        ctxx.stroke();
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(-degx*brotatea3x);
+        ctxx.translate(-bx2x,-by2x);
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(degx*brotatea23x);
+        ctxx.translate(-bx2x,-by2x);
+        ctxx.lineWidth=bwidtha2x;
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax-bwidthax-10,0,Math.PI*2/3,true);
+        ctxx.strokeStyle=color1applyx;
+        ctxx.stroke();
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax-bwidthax-10,Math.PI*2/3,Math.PI*4/3,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.beginPath();
+        ctxx.arc(bx2x,by2x,bradiusax-bwidthax-10,Math.PI*4/3,Math.PI*2,false);
+        ctxx.strokeStyle=color3applyx;
+        ctxx.stroke();
+        ctxx.translate(bx2x,by2x);
+        ctxx.rotate(-degx*brotatea23x);
+        ctxx.translate(-bx2x,-by2x);
+        if(by2x>=1100){
+            by2x=byx-700;
+            bradiusax = Math.ceil(Math.random()*50+200);
+            rotateincax = Math.random()*0.5+0.1;
+            rotateinca2x = Math.random()*0.5+0.1;
+            randax = Math.floor((Math.random()*2+1));
+            bx2x = Math.random()*100+350;
+            bwidthax = Math.ceil(Math.random()*15+15);
+            bwidtha2x = Math.ceil(Math.random()*15+15);
+            
+        }
+            if(by2x<0){
+            color1applyx = color1storex;
+            color2applyx = color2storex;
+            color3applyx = color3storex;
+        }
+            if(by2x-yx > -(bradiusax+2*bwidthax) && by2x-yx<(bradiusax+2*bwidthax)){
+            obj2x = 1;
+        }
+            else{
+            obj2x= 0;
+        }
+    }
+    function draw3x(){
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(degx*brotatebx);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.beginPath();
+        ctxx.strokeStyle=color1applyx;
+        ctxx.lineWidth=bwidthbx;
+        ctxx.arc(bx3x,by3x,bradiusbx,0,Math.PI,true);
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx,Math.PI,Math.PI*2,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(-degx*brotatebx);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(degx*brotateb2x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.lineWidth=bwidthb2x;
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx-bwidthbx-10,Math.PI,Math.PI*2,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx-bwidthbx-10,0,Math.PI,true);
+        ctxx.strokeStyle=color1applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(-degx*brotateb2x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(degx*brotateb3x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.lineWidth=bwidthb3x;
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx - bwidthbx-bwidthb2x-15,0,Math.PI,true);
+        ctxx.strokeStyle=color1applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx - bwidthbx-bwidthb2x-15,Math.PI,Math.PI*2,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(-degx*brotateb3x);
+        ctxx.translate(-bx3x,-by3x);
+        if(by3x>=1100){
+            by3x=by5x - 700;
+            bradiusbx = Math.ceil(Math.random()*50+200);
+            rotateincbx = Math.random()*0.2+0.3;;
+            rotateincb2x = rotateincbx-0.1;
+            rotateincb3x = rotateincbx;
+            randbx = Math.floor((Math.random()*2+1));
+            bx3x = Math.random()*100+350;
+            bwidthbx = Math.ceil(Math.random()*15+15);
+            bwidthb2x = Math.ceil(Math.random()*15+15);
+            bwidthb3x = Math.ceil(Math.random()*15+15);
+        }
+        if(by3x<0){
+            color1applyx = color1storex;
+            color2applyx = color2storex;
+            color3applyx = color3storex;
+        }
+    }
+        function draw3ax(){
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(degx*brotateb3x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.beginPath();
+        ctxx.strokeStyle=color1applyx;
+        ctxx.lineWidth=bwidthbx;
+        ctxx.arc(bx3x,by3x,bradiusbx,0,Math.PI*2/3,true);
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx,Math.PI*2/3,Math.PI*4/3,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx,Math.PI*4/3,Math.PI*2,false);
+        ctxx.strokeStyle=color3applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(-degx*brotateb3x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(degx*brotateb23x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.lineWidth=bwidthb2x;
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx-bwidthbx-10,0,Math.PI*2/3,true);
+        ctxx.strokeStyle=color1applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx-bwidthbx-10,Math.PI*2/3,Math.PI*4/3,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx-bwidthbx-10,Math.PI*4/3,Math.PI*2,false);
+        ctxx.strokeStyle=color3applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(-degx*brotateb23x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(degx*brotateb33x);
+        ctxx.translate(-bx3x,-by3x);
+        ctxx.lineWidth=bwidthb3x;
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx - bwidthbx-bwidthb2x-15,0,Math.PI*2/3,true);
+        ctxx.strokeStyle=color1applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx - bwidthbx-bwidthb2x-15,Math.PI*2/3,Math.PI*4/3,true);
+        ctxx.strokeStyle=color2applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.beginPath();
+        ctxx.arc(bx3x,by3x,bradiusbx - bwidthbx-bwidthb2x-15,Math.PI*4/3,Math.PI*2,false);
+        ctxx.strokeStyle=color3applyx;
+        ctxx.stroke();
+        ctxx.closePath();
+        ctxx.translate(bx3x,by3x);
+        ctxx.rotate(-degx*brotateb33x);
+        ctxx.translate(-bx3x,-by3x);
+        if(by3x>=1100){
+            by3x=by5x-700;
+            bradiusbx = Math.ceil(Math.random()*50+250);
+            rotateincbx = Math.random()*0.1+0.2;
+            rotateincb2x = rotateincbx-0.1;
+            rotateincb3x = rotateincbx;
+            randbx = Math.floor((Math.random()*2+1));
+            bx3x = Math.random()*100+350;
+            bwidthbx = Math.ceil(Math.random()*15+15);
+            bwidthb2x = Math.ceil(Math.random()*15+15);
+            bwidthb3x = Math.ceil(Math.random()*15+15);
+        }
+            if(by3x<0){
+            color1applyx = color1storex;
+            color2applyx = color2storex;
+            color3applyx = color3storex;
+        }
+            if(by3x-yx > -(bradiusbx+2*bwidthbx) && by3x-yx<(bradiusbx+2*bwidthbx)){
+            obj3x = 1;
+        }
+            else{
+            obj3x = 0;
+        }
+    }
+    function draw5x(){
+        ctxx.beginPath();
+        ctxx.fillStyle="orange";
+        ctxx.arc(400,by5x,40,0,Math.PI*2,false);
+        ctxx.fill();
+        if(by5x>=1100){
+            by5x=by2x-700;
+            randcx = Math.floor(Math.random()*4+1);
+            
+        }
+        if(byx >250 && byx <300){
+            fireballx = 0;
+        }
+    }
+    function draw5ax(){
+        if(coincountx>=0 && coincountx <30){
+            coinx.src = "/images/coin1.png";
+            bx5x = bx5x+bx5incx;
+        }
+        else if(coincountx>=30 && coincountx <60){
+            coinx.src = "/images/coin2.png";
+            bx5x = bx5x+bx5incx;
+        }
+        else if(coincountx>=60 && coincountx <90){
+            coinx.src = "/images/coin3.png";
+            bx5x = bx5x+bx5incx;
+        }
+        else if(coincountx>=90 && coincountx <120){
+            coinx.src = "/images/coin4.png";
+            bx5x = bx5x+bx5incx;
+        }
+        else if(coincountx>=120 && coincountx <150){
+            coinx.src = "/images/coin5.png";
+            bx5x = bx5x+bx5incx;
+        }
+        else if(coincountx>=150 && coincountx <180){
+            coinx.src = "/images/coin6.png";
+            bx5x = bx5x+bx5incx;
+        }
+        else if(coincountx>=180 && coincountx <210){
+            coinx.src = "/images/coin7.png";
+            bx5x = bx5x + bx5incx;
+        }
+        ctxx.drawImage(coinx,bx5x,by5x);
+        coincountx++;
+        if(bx5x > canvasx.width-970){
+            bx5incx = -1;
+        }
+        else if (bx5x < 0){
+            bx5incx = 1;
+        }
+        if(coincountx >210){
+            coincountx =0;
+        }
+     
+        if(by5x>=1100){
+            by5x=by2x-700;
+            randcx = Math.floor(Math.random()*4+1);
+        }
+        if( byx >250 && byx <300){
+            fireballx = 0;
+        }
+    }
+    function drawTorchx(){
+           if(torchcountx>=0 && torchcountx <30){
+            torchx.src = "/images/torch1.png";
+        }
+        else if(torchcountx>=30 && torchcountx <60){
+            torchx.src = "/images/torch2.png";
+        }
+        else if(torchcountx>=60 && torchcountx <90){
+            torchx.src = "/images/torch3.png";
+        }
+        else if(torchcountx>=90 && torchcountx <120){
+            torchx.src = "/images/torch4.png";
+        }
+        else if(torchcountx>=120 && torchcountx <150){
+            torchx.src = "/images/torch5.png";
+        }
+        else if(torchcountx>=150 && torchcountx <180){
+            torchx.src = "/images/torch6.png";
+        }
+        else if(torchcountx>=180 && torchcountx <210){
+            torchx.src = "/images/torch7.png";
+        }
+        else if(torchcountx>=210 && torchcountx <240){
+            torchx.src = "/images/torch8.png";
+        }
+        ctxx.drawImage(torchx,20,650);
+        torchcountx++;
+        if(torchcountx >240){
+            torchcountx =0;
+        }
+    }
+    function drawFirex(){
+        if(firecountx>=0 && firecountx <30){
+            firex.src = "/images/fire1.png";
+        }
+        else if(firecountx>=30 && firecountx <60){
+            firex.src = "/images/fire2.png";
+        }
+        else if(firecountx>=60 && firecountx <90){
+            firex.src = "/images/fire3.png";
+        }
+        else if(firecountx>=90 && firecountx <120){
+            firex.src = "/images/fire4.png";
+        }
+        else if(firecountx>=120 && firecountx <150){
+            firex.src = "/images/fire5.png";
+        }
+        ctxx.drawImage(firex,360,yx);
+        firecountx++;
+        if(firecountx >150){
+            firecountx = 0;
+        }
+    }
+   
+    function draw4x(){
+            ctxx.beginPath();
+            ctxx.fillStyle=color2applyx;
+            ctxx.arc(400,by4x,30,0,Math.PI*2,false);
+            ctxx.fill();
+        if(by4x>=1100){
+            by4x=by3x-500;
+        }
+        if(by4x-yx >-1 && by4x-yx <1){
+           color1applyx = color1storex;
+            color2applyx = color2storex;
+            color3applyx = color3storex;
+           }
+    }
+    var timerx = setInterval(rotateupdatex,5);
+    function rotateupdatex(){
+        ctxx.clearRect(0,0,canvasx.width,canvasx.height);
+        brotatex = brotatex+rotateincx;
+        brotateax = brotateax+rotateincax;
+        brotatea2x = brotatea2x+rotateinca2x;
+        brotatebx = brotatebx+rotateincbx;
+        brotateb2x = brotateb2x+rotateincb2x;
+        brotateb3x = brotateb3x+rotateincb3x;
+        brotate3x = brotate3x+rotateincx;
+        brotatea3x = brotatea3x+rotateincax;
+        brotatea23x = brotatea23x+rotateinca2x;
+        brotateb3x = brotateb3x+rotateincbx;
+        brotateb23x = brotateb23x+rotateincb2x;
+        brotateb33x = brotateb33x+rotateincb3x;
+       if(brotatex>=360){
+            brotatex=0.001;
+       }
+        if(brotateax>=360){
+            brotateax=0.001;
+       }
+        if(brotatea2x>=360){
+            brotatea2x=0.001;
+       }
+        if(brotatebx>=360){
+            brotatebx=0.001;
+       }
+        if(brotateb2x>=360){
+            brotateb2x=0.001;
+       }
+        if(brotateb3x>=360){
+            brotateb3x=0.001;
+       }
+        if(brotate3x>=360){
+            brotate3x=0.001;
+       }
+        if(brotatea3x>=360){
+            brotatea3x=0.001;
+       }
+        if(brotatea23x>=360){
+            brotatea23x=0.001;
+       }
+        if(brotateb3x>=360){
+            brotateb3x=0.001;
+       }
+        if(brotateb23x>=360){
+            brotateb23x=0.001;
+       }
+        if(brotateb33x>=360){
+            brotateb33x=0.001;
+       }
+    
+        bvx = 4;
+        if(randx == 1){
+            drawx();
+        }
+        else{
+            drawax();
+        }
+        if(randax == 1){
+            draw2x();
+        }
+        else{
+            draw2ax();
+        }
+        if(randcx != 4){
+            draw5ax();
+        }
+        else{
+            draw5x();
+        }
+        if(randbx == 1){
+            draw3x();
+        }
+        else{
+            draw3ax();
+        }
+        draw4x();
+        if(by5x-yx >(-150) && by5x-yx<10 && randcx != 4 && (bx5x>290 && bx5x<380)){
+                timex = timex+200;
+                by5x =1100 ;
+            document.getElementsByTagName("audio")[5].play();
+            }
+        if(by5x-yx >(-30) && by5x-yx<30 && randcx == 4){
+                fireballx = 1;
+                by5x = 1100;
+            }
+        
+        if(fireballx == 0){
+             ctxx.beginPath();
+             ctxx.fillStyle=color2applyx;
+             ctxx.arc(400,yx,20,0,Math.PI*2,false);
+             ctxx.fill();
+            }
+            else if( fireballx == 1){
+                drawFirex();
+                drawTorchx();
+            }
+        
+    }
+    function randomColorx(){
+        let r = Math.ceil(Math.random()*255);
+        let g = Math.ceil(Math.random()*255);
+        let b = Math.ceil(Math.random()*255);
+        let color1 = "rgb("+String(r)+","+String(g)+","+String(b)+")";
+        return color1;
+    } 
+    function randomColorax(){
+        let r = Math.ceil(Math.random()*70+90);
+        let g = Math.ceil(Math.random()*70+90);
+        let b = Math.ceil(Math.random()*70+90);
+        let color2 = "rgb("+String(r)+","+String(g)+","+String(b)+")";
+        return color2;
+    }
+        function randomColorbx(){
+        let r = Math.ceil(Math.random()*70+180);
+        let g = Math.ceil(Math.random()*70+180);
+        let b = Math.ceil(Math.random()*70+180);
+        let color3 = "rgb("+String(r)+","+String(g)+","+String(b)+")";
+        return color3;
+    }
+        function endx(){
+        document.getElementById("endscreenx").style.visibility = "visible";
+        document.getElementById("endscorex").innerText = Math.floor(timex/20);
+        document.getElementById("pause").disabled = true;
+        document.getElementById("resume").disabled = true;
+        document.getElementsByTagName("audio")[2].pause();
+            stopx = true;
+    }
+    function timingx(){
+        if(!stopx){
+            timex++;
+        }
+        document.getElementById("scorex").innerText = Math.floor(timex/20);
+    }
+    
+    </script>
+</html>
